@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "CapstoneProject",
-    "slug": "CapstoneProject",
+    "name": "Capstone",
+    "slug": "Capstone",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/Campus2.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
