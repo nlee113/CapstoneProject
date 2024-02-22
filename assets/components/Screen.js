@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import Constants from "expo-constants";
 import { StyleSheet, SafeAreaView, View } from "react-native";
+import { TextInput, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 
 function Screen({ children, style }) {
   return (
