@@ -1,12 +1,18 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './assets/screens/LoginScreen';
-import AppButton from './assets/components/AppButton';
-import Screen from './assets/components/Screen';
-import LoginCreds from './assets/components/LoginCreds';
+import SignUpScreen from './assets/screens/SignUpScreen'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <LoginScreen/>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }

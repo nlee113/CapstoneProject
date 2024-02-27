@@ -5,13 +5,18 @@ import Colors from './Colors';
 function AppButton({title}) {
     return (
         <TouchableOpacity style={styles.button}>
-
-            <Text style={styles.text}>{title}</Text>
+            <View style={styles.button}>
+                <Text style={styles.text}>{title}</Text>
+            </View>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
+    buttonContainer: {
+        width: '100%',
+        alignItems: 'center',
+    },
     button: {
         backgroundColor: Colors.universityBlue,
         borderRadius: 25,

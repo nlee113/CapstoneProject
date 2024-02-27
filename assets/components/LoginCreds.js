@@ -11,7 +11,7 @@ function LoginCreds({...otherProps}) {
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.lightGray,
+        backgroundColor: Colors.white,
         borderRadius: 15,
         flexDirection: "row",
         width:"100%",

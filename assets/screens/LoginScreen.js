@@ -1,10 +1,10 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Image, View, Text, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { ImageBackground, StyleSheet, Image, View, Text, TextInput, KeyboardAvoidingView, Platform, Button, ScrollView } from 'react-native';
 import AppButton from '../components/AppButton';
 import LoginCreds from '../components/LoginCreds';
 import Screen from '../components/Screen';
 
-function LoginScreen(props) {
+function LoginScreen({ navigation }) {
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
@@ -34,7 +34,8 @@ function LoginScreen(props) {
                             />
                         </View>
                         <View style={styles.buttonsContainer}>
-                            <AppButton title="Login"/>
+                            <Button title="Login"/>
+                            <Button title="Sign Up" onPress={() => navigation.navigate('SignUp')}/>
                         </View>
                     </Screen>
                 </View>
