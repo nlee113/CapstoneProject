@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { ImageBackground, StyleSheet, Image, View, Text, TextInput, Button, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView } from 'react-native';
 import AppButton from '../components/AppButton';
 import { SelectCountry } from 'react-native-element-dropdown';
 import LoginCreds from '../components/LoginCreds';
+import { AntDesign } from '@expo/vector-icons';
+import UploadImage from '../functions/UploadImage';
 import Screen from '../components/Screen';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -26,36 +28,15 @@ const local_data = [
 function SignUpScreen(props) {
     const [selectedValue, setSelectedValue] = useState('driver');
     const [carModel, setCarModel] = useState('');
-    const [avatarSource, setAvatarSource] = useState(null);
-
-    useEffect(() => {
-        (async () => {
-            if (Platform.OS !== 'web') {
-                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-                if (status !== 'granted') {
-                    alert('Sorry, we need camera roll permissions to make this work!');
-                }
-            }
-        })();
-    }, []);
+    const [carColor, setCarColor] = useState('');
+    const [carMake, setCarMake] = useState('');
 
     const handleValueChange = (value) => {
         setSelectedValue(value);
         // Reset car model when switching between driver/passenger
         setCarModel('');
-    };
-    
-    const selectPhoto = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        if (!result.cancelled) {
-            setAvatarSource(result.uri);
-        }
+        setCarColor('');
+        setCarMake('');
     };
 
     return (
@@ -71,7 +52,14 @@ function SignUpScreen(props) {
                             <LoginCreds
                                 autoCapitalize="words"
                                 autoCorrect={false}
-                                placeholder="First and Last Name"
+                                placeholder="First Name"
+                                keyboardType="default"
+                                textContentType="name"
+                            />
+                            <LoginCreds
+                                autoCapitalize="words"
+                                autoCorrect={false}
+                                placeholder="Last Name"
                                 keyboardType="default"
                                 textContentType="name"
                             />
@@ -133,34 +121,27 @@ function SignUpScreen(props) {
                                 onChange={e => handleValueChange(e.value)}
                             />
                             {selectedValue === 'driver' && (
+                            <View>
+                            <LoginCreds
+                            value={carColor}
+                            onChangeText={text => setCarColor(text)}
+                            placeholder="Car Color"
+                            />
+                            <LoginCreds
+                            value={carMake}
+                            onChangeText={text => setCarMake(text)}
+                            placeholder="Car Make"
+                            />
                             <LoginCreds
                                 value={carModel}
                                 onChangeText={text => setCarModel(text)}
-                                placeholder="Car Color, Make and Model"
+                                placeholder="Car Model"
                             />
+                            </View>
                         )}
-                        <TouchableOpacity onPress={selectPhoto}>
-                            <View style={styles.avatarContainer}>
-                                {avatarSource === null ? (
-                                    <Text>Select a Photo</Text>
-                                ) : (
-                                        <Image
-                                            source={avatarSource}
-                                            style={styles.avatar}
-                                        />
-                                        )}
                         </View>
-                        {avatarSource && ( // Display the selected image only if it exists
-                        <View style={styles.avatarPreviewContainer}>
-                            <Text style={styles.avatarPreviewText}>Selected Image:</Text>
-                            <Image
-                                source={{ uri: avatarSource }}
-                                style={styles.avatarPreview}
-                            />
-                        </View>
-                    )}
-                        </TouchableOpacity>
-                        </View>
+                            <View style={styles.container}><UploadImage></UploadImage>
+                            </View>
                         <View style={styles.buttonsContainer}>
                             <Button title="Sign Up"/>
                         </View>
@@ -231,23 +212,15 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 50,
     },
+    avatarContainer: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
     container: {
+        alignItems: 'center',
         flex: 1,
         padding: 10
-    },
-    avatarPreviewContainer: {
-        marginTop: 20,
-        alignItems: 'center',
-    },
-    avatarPreviewText: {
-        fontSize: 18,
-        marginBottom: 10,
-    },
-    avatarPreview: {
-        width: 200,
-        height: 200,
-        borderRadius: 10,
-    },
+    }
 });
 
 export default SignUpScreen;
