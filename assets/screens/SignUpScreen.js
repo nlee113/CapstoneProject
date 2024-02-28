@@ -30,6 +30,21 @@ function SignUpScreen(props) {
     const [carModel, setCarModel] = useState('');
     const [carColor, setCarColor] = useState('');
     const [carMake, setCarMake] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordsMatch, setPasswordsMatch] = useState(true);
+    
+    const handleSignUp = () => {
+        // Check if passwords match
+        if (password === confirmPassword) {
+            // Proceed with sign-up
+            console.log('Passwords match! Proceed with sign-up.');
+        } else {
+            // Show error message
+            console.log('Passwords do not match. Please enter matching passwords.');
+            setPasswordsMatch(false);
+        }
+    };
 
     const handleValueChange = (value) => {
         setSelectedValue(value);
@@ -92,19 +107,19 @@ function SignUpScreen(props) {
                                 textContentType="none"
                             />
                             <LoginCreds
-                                autoCapitalize="none"
-                                autoCorrect={false}
+                                value={password}
+                                onChangeText={text => setPassword(text)}
                                 placeholder="CSUSM Password"
                                 secureTextEntry
                                 textContentType="password"
                             />
                             <LoginCreds
-                                autoCapitalize="none"
-                                autoCorrect={false}
+                                onChangeText={text => setConfirmPassword(text)}
                                 placeholder="Confirm Password"
                                 secureTextEntry
                                 textContentType="password"
                             />
+                            {!passwordsMatch && <Text style={styles.errorMessage}>Passwords do not match.</Text>}
                             <SelectCountry
                                 style={styles.SelectCountry}
                                 selectedTextStyle={styles.selectedTextStyle}
@@ -143,7 +158,7 @@ function SignUpScreen(props) {
                             <View style={styles.container}><UploadImage></UploadImage>
                             </View>
                         <View style={styles.buttonsContainer}>
-                            <Button title="Sign Up"/>
+                            <Button title="Sign Up"onPress={handleSignUp}/>
                         </View>
                     </Screen>
                 </View>
@@ -156,6 +171,10 @@ const styles = StyleSheet.create({
     scrollContainer: {
         flexGrow: 1,
         justifyContent: 'center',
+    },
+    errorMessage: {
+        color: 'red',
+        marginBottom: 10,
     },
     content: {
         padding: 20, 
