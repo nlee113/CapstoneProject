@@ -13,7 +13,7 @@ function LoginScreen({ navigation }) {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style = {styles.content}>
                     <Screen>
-                        <Image style={styles.backdrop} source={require("../csusmLogo.jpg")} />
+                        <Image style={styles.backdrop} source={require("../csusmLogo.png")} />
                         <View style={styles.appNameContainer}>
                             <Text style={styles.appName}>CougarCarpool</Text>
                         </View>
@@ -60,14 +60,12 @@ const styles = StyleSheet.create({
         fontSize: 43,
     },
     appNameContainer: {
-        alignSelf: "center",
-        marginBottom: 100
+        alignSelf: "center"
     },
     backdrop: {
-        width: "100%",
-        height: 300,
-        alignSelf: "center",
-        marginTop: 10,
+        width: '100%',
+        height: 270,
+        alignSelf: 'auto',
         marginBottom: 30
     },
     buttonsContainer: {
