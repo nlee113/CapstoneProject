@@ -39,6 +39,8 @@ function SignUpScreen(props) {
         if (password === confirmPassword) {
             // Proceed with sign-up
             console.log('Passwords match! Proceed with sign-up.');
+            // Navigate to scheduling page
+            props.navigation.navigate('ScheduleAssistant');
         } else {
             // Show error message
             console.log('Passwords do not match. Please enter matching passwords.');
