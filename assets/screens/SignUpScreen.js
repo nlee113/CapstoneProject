@@ -3,6 +3,7 @@ import { ImageBackground, StyleSheet, Image, View, Text, TextInput, Button, Keyb
 import AppButton from '../components/AppButton';
 import { SelectCountry } from 'react-native-element-dropdown';
 import LoginCreds from '../components/LoginCreds';
+import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons';
 import UploadImage from '../functions/UploadImage';
 import Screen from '../components/Screen';
@@ -10,14 +11,14 @@ import * as ImagePicker from 'expo-image-picker';
 
 const local_data = [
     {
-        value: 'driver',
+        value: true,
         label: 'Driver',
         image: {
             uri: 'https://www.cardiacscreen.co.uk/blog/wp-content/uploads/2016/03/taxi-driver-heart.jpg'
         }
     },
     {
-        value: 'passenger',
+        value: false,
         label: 'Passenger',
         image: {
             uri: 'https://www.edriving.com/three60/wp-content/uploads/sites/2/2019/05/Woman-putting-seat-belt-on-iStock-1149107466-1024x556.jpg'
@@ -26,19 +27,66 @@ const local_data = [
 ];
 
 function SignUpScreen(props) {
-    const [selectedValue, setSelectedValue] = useState('driver');
-    const [carModel, setCarModel] = useState('');
-    const [carColor, setCarColor] = useState('');
-    const [carMake, setCarMake] = useState('');
+    state = { 
+        details: [], 
+        first_name: "", 
+        last_name: "",
+        gender: "",
+        age: "",
+        email: "",
+        password: "",
+        id_num: "",
+        driver: "",
+        color: "",
+        make: "",
+        model: "",
+    }; 
+    const [selectedValue, setSelectedValue] = useState(true);
+    const [model, setModel] = useState('');
+    const [color, setColor] = useState('');
+    const [make, setMake] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
+    const [first_name, setFirst_name] = useState('');
+    const [last_name,setLast_name] = useState('');
+    const [gender, setGender] = useState('');
+    const [age,setAge] = useState('');
+    const [email, setEmail] = useState('');
+    const [id_num, setId_num] = useState('');
+    const [driver,setDriver] = useState('');
+
+
+
+
     
-    const handleSignUp = () => {
+    const handleSignUp = (e) => {
+        e.preventDefault(); 
         // Check if passwords match
         if (password === confirmPassword) {
             // Proceed with sign-up
             console.log('Passwords match! Proceed with sign-up.');
+            axios 
+            .post("http://localhost:8000/wel/", { 
+                first_name: first_name, 
+                last_name: last_name,
+                gender: gender,
+                age: age,
+                email: email,
+                password: password,
+                id_num: id_num,
+                driver: driver,
+                color: color,
+                make: make,
+                model: model,
+            }) 
+            .then((res) => { 
+                console.log("Sign up successful:", res.data);
+            }) 
+            .catch((err) => { 
+                // handle error
+                console.error("Sign up failed:", err);
+            }); 
         } else {
             // Show error message
             console.log('Passwords do not match. Please enter matching passwords.');
@@ -46,12 +94,52 @@ function SignUpScreen(props) {
         }
     };
 
+    const handleInput = (name, value) => {
+        switch (name) {
+            case 'first_name':
+                setFirst_name(value);
+                break;
+            case 'last_name':
+                setLast_name(value);
+                break;
+            case 'gender':
+                setGender(value);
+                break;
+            case 'age':
+                setAge(value);
+                break;
+            case 'email':
+                setEmail(value);
+                break;
+            case 'password':
+                setPassword(value);
+                break;
+            case 'confirm_password':
+                setConfirmPassword(value);
+                break;
+            case 'id_num':
+                setId_num(value);
+                break;
+            case 'driver':
+                setDriver(value);
+                handleValueChange(e.value);
+                break;
+            case 'color':
+                setColor(value);
+                break;
+            case 'make':
+                setMake(value);
+                break;
+            case 'model':
+                setModel(value);
+                break;
+            default:
+                break;
+        }
+    };
+
     const handleValueChange = (value) => {
         setSelectedValue(value);
-        // Reset car model when switching between driver/passenger
-        setCarModel('');
-        setCarColor('');
-        setCarMake('');
     };
 
     return (
@@ -70,6 +158,8 @@ function SignUpScreen(props) {
                                 placeholder="First Name"
                                 keyboardType="default"
                                 textContentType="name"
+                                value={first_name}
+                                onChangeText={text => handleInput('first_name', text)}
                             />
                             <LoginCreds
                                 autoCapitalize="words"
@@ -77,6 +167,8 @@ function SignUpScreen(props) {
                                 placeholder="Last Name"
                                 keyboardType="default"
                                 textContentType="name"
+                                value={last_name} 
+                                onChangeText={text => handleInput('last_name', text)}
                             />
                             <LoginCreds
                                 autoCapitalize="none"
@@ -84,6 +176,8 @@ function SignUpScreen(props) {
                                 placeholder="Gender"
                                 keyboardType="default"
                                 textContentType="none"
+                                value={gender}
+                                onChangeText={text => handleInput('gender', text)}
                             />
                             <LoginCreds
                                 autoCapitalize="none"
@@ -91,6 +185,8 @@ function SignUpScreen(props) {
                                 placeholder="Age"
                                 keyboardType="numeric"
                                 textContentType="none"
+                                value={age}
+                                onChangeText={text => handleInput('age', text)}
                             />
                             <LoginCreds
                                 autoCapitalize="none"
@@ -98,28 +194,33 @@ function SignUpScreen(props) {
                                 placeholder="CSUSM Email"
                                 keyboardType="email-address"
                                 textContentType="emailAddress"
+                                value={email}
+                                onChangeText={text => handleInput('email', text)}
                             />
+                            <LoginCreds
+                                value={password}
+                                onChangeText={text => handleInput('password',text)}
+                                placeholder="CSUSM Password"
+                                secureTextEntry
+                                textContentType="password"
+                                
+                            />
+                            <LoginCreds
+                                onChangeText={text => handleInput('confirm_password',text)}
+                                placeholder="Confirm Password"
+                                secureTextEntry
+                                textContentType="password"
+                            />
+                            {!passwordsMatch && <Text style={styles.errorMessage}>Passwords do not match.</Text>}
                             <LoginCreds
                                 autoCapitalize="none"
                                 autoCorrect={false}
                                 placeholder="Student ID #"
                                 keyboardType="numeric"
                                 textContentType="none"
+                                value={id_num}
+                                onChangeText={text => handleInput('id_num',text)}
                             />
-                            <LoginCreds
-                                value={password}
-                                onChangeText={text => setPassword(text)}
-                                placeholder="CSUSM Password"
-                                secureTextEntry
-                                textContentType="password"
-                            />
-                            <LoginCreds
-                                onChangeText={text => setConfirmPassword(text)}
-                                placeholder="Confirm Password"
-                                secureTextEntry
-                                textContentType="password"
-                            />
-                            {!passwordsMatch && <Text style={styles.errorMessage}>Passwords do not match.</Text>}
                             <SelectCountry
                                 style={styles.SelectCountry}
                                 selectedTextStyle={styles.selectedTextStyle}
@@ -127,29 +228,29 @@ function SignUpScreen(props) {
                                 imageStyle={styles.imageStyle}
                                 iconStyle={styles.iconStyle}
                                 maxHeight={200}
-                                value={selectedValue}
+                                value={driver}
                                 data={local_data}
                                 valueField="value"
                                 labelField="label"
                                 imageField="image"
                                 placeholder="Driver or Passenger?"
-                                onChange={e => handleValueChange(e.value)}
+                                onChange={e => handleInput('driver',e.value)}
                             />
-                            {selectedValue === 'driver' && (
+                            {selectedValue === driver && (
                             <View>
                             <LoginCreds
-                            value={carColor}
-                            onChangeText={text => setCarColor(text)}
+                            value={color}
+                            onChangeText={text => handleInput('color',text)}
                             placeholder="Car Color"
                             />
                             <LoginCreds
-                            value={carMake}
-                            onChangeText={text => setCarMake(text)}
+                            value={make}
+                            onChangeText={text => handleInput('make',text)}
                             placeholder="Car Make"
                             />
                             <LoginCreds
-                                value={carModel}
-                                onChangeText={text => setCarModel(text)}
+                                value={model}
+                                onChangeText={text => handleInput('model',text)}
                                 placeholder="Car Model"
                             />
                             </View>
