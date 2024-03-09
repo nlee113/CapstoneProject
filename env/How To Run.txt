@@ -1,0 +1,8 @@
+Open cmd
+Navigate to env/Scripts/
+type activate
+That will open the virtual environment
+once inside the virtual environment navigate to env/scripts/users
+type python manage.py runserver
+server is now running and you can send data to the server
+go to http://localhost:8000/wel/ to view the database
