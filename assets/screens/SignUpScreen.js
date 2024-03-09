@@ -66,6 +66,8 @@ function SignUpScreen(props) {
         if (password === confirmPassword) {
             // Proceed with sign-up
             console.log('Passwords match! Proceed with sign-up.');
+            // Navigate to scheduling page
+            props.navigation.navigate('ScheduleAssistant');
             axios 
             .post("http://localhost:8000/wel/", { 
                 first_name: first_name, 
