@@ -123,7 +123,7 @@ function SignUpScreen(props) {
                 break;
             case 'driver':
                 setDriver(value);
-                handleValueChange(e.value);
+                handleValueChange(value);
                 break;
             case 'color':
                 setColor(value);
@@ -237,7 +237,7 @@ function SignUpScreen(props) {
                                 placeholder="Driver or Passenger?"
                                 onChange={e => handleInput('driver',e.value)}
                             />
-                            {selectedValue === driver && (
+                            {driver && (
                             <View>
                             <LoginCreds
                             value={color}
