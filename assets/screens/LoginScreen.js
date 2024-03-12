@@ -34,7 +34,7 @@ function LoginScreen({ navigation }) {
                             />
                         </View>
                         <View style={styles.buttonsContainer}>
-                            <Button title="Login"/>
+                            <Button title="Login" onPress={() => navigation.navigate('ScheduleAssistant')}/>
                             <Button title="Sign Up" onPress={() => navigation.navigate('SignUp')}/>
                         </View>
                     </Screen>
