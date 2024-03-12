@@ -7,7 +7,6 @@ import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons';
 import UploadImage from '../functions/UploadImage';
 import Screen from '../components/Screen';
-import * as ImagePicker from 'expo-image-picker';
 
 const local_data = [
     {
