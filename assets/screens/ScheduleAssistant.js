@@ -28,19 +28,33 @@ const data2 = [
 
 const ScheduleAssistant = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
 
-  const handleSelectOption = (option) => {
-    setSelectedOptions([...selectedOptions, option]);
-  };
+  const handleDaySelect = (option) => {
+    setSelectedDay(option.label);
+  }
 
-  const clearSelectedOptions = () => {
+  const handleTimeSelect = (option) => {
+    setSelectedTime(option.label);
+  }
+
+  const handleClear = () => {
     setSelectedOptions([]);
   };
+
+  const handleSubmit = () => {
+    if(selectedDay && selectedTime) {
+      setSelectedOptions([...selectedOptions, { day: selectedDay, time: selectedTime }]);
+      setSelectedDay(null);
+      setSelectedTime(null);
+    }
+  }
 
   const renderSelectedOptions = () => {
     return selectedOptions.map((option, index) => (
       <TouchableOpacity key={index} style={styles.selectedOption}>
-        <Text>{option.label}</Text>
+        <Text>{option.day} {option.time} </Text>
       </TouchableOpacity>
     ));
   };
@@ -70,7 +84,7 @@ const ScheduleAssistant = () => {
             valueField="value"
             placeholder={'Select Days'}
             searchPlaceholder="Search..."
-            onChange={handleSelectOption}
+            onChange={handleDaySelect}
             renderLeftIcon={() => (
               <AntDesign
                 style={styles.icon}
@@ -94,7 +108,7 @@ const ScheduleAssistant = () => {
             valueField="value"
             placeholder={'Select Times'}
             searchPlaceholder="Search..."
-            onChange={handleSelectOption}
+            onChange={handleTimeSelect}
             renderLeftIcon={() => (
               <AntDesign
                 style={styles.icon}
@@ -105,11 +119,17 @@ const ScheduleAssistant = () => {
           />
         </View>
       </View>
-      <Text style={styles.label}>Schedule</Text>
+      <Text style={styles.label}>Schedule:</Text>
       <ScrollView style={styles.scheduleContainer}>
         {renderSelectedOptions()}
+        <View style={styles.buttonContainer}>
+        <Button title="Clear" onPress={handleClear} />
+        <Button title="Submit" onPress={handleSubmit} />
+        </View>
       </ScrollView>
-      <Button title="Clear Selected Options" onPress={clearSelectedOptions} />
+      <TouchableOpacity style={styles.nextButton} >
+        <Button title="Next" />
+      </TouchableOpacity>
     </View>
   );     
 };
@@ -164,6 +184,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flex: 1,
     width: 160,
+    flexDirection: 'row',
+  },
+  buttonContainer: {
+    marginTop: 30,
+    flex: 1,
+    width: 160,
+    flexDirection: 'row',
   },
   selectedOption: {
     padding: 10,
@@ -172,6 +199,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     borderRadius: 22,
   },
+  nextButton: {
+    marginBottom: 100,
+    marginLeft: 200,
+  }
 });
 
 export default ScheduleAssistant;
